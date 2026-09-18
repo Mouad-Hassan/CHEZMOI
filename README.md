@@ -78,6 +78,3 @@ Application : **http://localhost:8000** — MySQL exposé sur le port 3307.
 - [MLD](docs/MLD.md) — Modèle Logique de Données
 
 
-
-
-
