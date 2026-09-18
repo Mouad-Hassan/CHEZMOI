@@ -54,13 +54,6 @@ php artisan serve
 
 Accès : **http://127.0.0.1:8000**
 
-### Comptes de démonstration
-
-| Rôle | Email | Mot de passe |
-|---|---|---|
-| Administrateur | test@gmail.com | test |
-| Propriétaire | test1@gmail.com | test1 |
-| Acheteur | test2@gmail.com | test2 |
 
 ## 🧪 Tests
 
