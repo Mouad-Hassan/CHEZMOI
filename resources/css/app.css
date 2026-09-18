@@ -1,0 +1,221 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   ChezMoi — Système de design Beige / Gold / Charcoal
+   Palette :
+     #F8F8F8  (white-soft)   → fonds globaux
+     #FAEBCD  (beige-100)    → cartes, sections
+     #F7C873  (gold)         → accents, prix, badges
+     #434343  (charcoal)     → texte, boutons primaires
+   ============================================================ */
+
+@layer base {
+    :root {
+        --color-white-soft:  #F8F8F8;
+        --color-beige:       #FAEBCD;
+        --color-gold:        #F7C873;
+        --color-gold-dark:   #E5A835;
+        --color-charcoal:    #434343;
+        --color-charcoal-dk: #2C2C2C;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background-color: var(--color-white-soft);
+        color: var(--color-charcoal);
+        font-family: 'Outfit', sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+        background-color: var(--color-gold);
+        color: var(--color-charcoal);
+    }
+
+    /* Scrollbar subtile */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--color-white-soft); }
+    ::-webkit-scrollbar-thumb { background: var(--color-beige); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-gold); }
+}
+
+/* ============================================================
+   COMPOSANTS
+   ============================================================ */
+@layer components {
+
+    /* ----- Carte propriété ----- */
+    .brand-card {
+        @apply rounded-2xl border border-beige-100 bg-white shadow-card transition-all duration-300;
+    }
+    .brand-card:hover {
+        @apply shadow-beige-lg -translate-y-0.5;
+    }
+
+    /* ----- Inputs de recherche ----- */
+    .brand-input {
+        @apply w-full rounded-xl border border-beige-200 bg-white text-charcoal placeholder-charcoal/40
+               focus:border-gold focus:ring-2 focus:ring-gold/30 focus:outline-none transition duration-200;
+    }
+
+    /* ----- Badge type opération ----- */
+    .badge-chez {
+        @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider
+               bg-white/90 backdrop-blur-sm border border-beige-200 shadow-sm;
+    }
+
+    /* ----- Bouton primaire charcoal ----- */
+    .btn-primary {
+        @apply inline-flex items-center justify-center rounded-xl bg-charcoal px-6 py-3
+               text-sm font-bold text-white shadow-md transition
+               hover:bg-charcoal-dark hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2;
+    }
+
+    /* ----- Bouton gold/accent ----- */
+    .btn-gold {
+        @apply inline-flex items-center justify-center rounded-xl bg-gold px-6 py-3
+               text-sm font-bold text-charcoal shadow-beige transition
+               hover:bg-gold-dark hover:shadow-beige-lg focus:outline-none focus:ring-2 focus:ring-gold/50 focus:ring-offset-2;
+    }
+
+    /* ----- Bouton outline ----- */
+    .btn-outline {
+        @apply inline-flex items-center justify-center rounded-xl border-2 border-charcoal bg-transparent px-6 py-3
+               text-sm font-bold text-charcoal transition
+               hover:bg-charcoal hover:text-white focus:outline-none focus:ring-2 focus:ring-charcoal focus:ring-offset-2;
+    }
+
+    /* ----- Bouton principal (alias utilisé dans create/edit annonce) ----- */
+    .brand-button {
+        @apply inline-flex items-center justify-center rounded-xl bg-charcoal px-6 py-3
+               text-sm font-bold text-white shadow-md transition
+               hover:bg-charcoal-dark hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2;
+    }
+
+    /* ----- Bouton outline (alias utilisé dans create/edit annonce) ----- */
+    .brand-outline-button {
+        @apply inline-flex items-center justify-center rounded-xl border-2 border-charcoal bg-transparent px-6 py-3
+               text-sm font-bold text-charcoal transition
+               hover:bg-charcoal hover:text-white focus:outline-none focus:ring-2 focus:ring-charcoal focus:ring-offset-2;
+    }
+
+    /* ----- Label de section ----- */
+    .section-label {
+        @apply text-xs font-bold uppercase tracking-[0.2em] text-gold;
+    }
+
+    /* ----- Bouton style lien doré (utilisé sur toutes les pages admin) ----- */
+    .link-gold {
+        @apply text-gold-dark hover:underline font-medium transition-colors;
+    }
+}
+
+/* ============================================================
+   HERO & GRADIENTS
+   ============================================================ */
+@layer utilities {
+
+    /* Gradient hero — conserve la lisibilité du texte blanc */
+    .hero-chez-gradient {
+        background: linear-gradient(
+            105deg,
+            rgba(67, 67, 67, 0.78) 0%,
+            rgba(67, 67, 67, 0.50) 45%,
+            rgba(250, 235, 205, 0.12) 100%
+        );
+    }
+
+    /* -------------------------------------------------------
+       GRADIENT BEIGE SUR LES IMAGES DE PROPRIÉTÉS
+       Crée un fondu bas → or/beige doux sur chaque card photo
+       ------------------------------------------------------- */
+    .annonce-image-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Overlay permanent beige/gold en bas de l'image */
+    .annonce-image-container::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            rgba(250, 235, 205, 0.04) 0%,
+            rgba(250, 235, 205, 0.18) 55%,
+            rgba(247, 200, 115, 0.42) 100%
+        );
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* Le badge doit passer au-dessus du gradient */
+    .annonce-image-container .badge-chez {
+        z-index: 2;
+    }
+
+    /* Vignette légère au survol pour renforcer l'effet premium */
+    .brand-card:hover .annonce-image-container::after {
+        background: linear-gradient(
+            to bottom,
+            rgba(250, 235, 205, 0.06) 0%,
+            rgba(250, 235, 205, 0.25) 55%,
+            rgba(247, 200, 115, 0.55) 100%
+        );
+    }
+
+    /* Image dans la container — scale au survol de la carte */
+    .annonce-image-container img {
+        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .brand-card:hover .annonce-image-container img {
+        transform: scale(1.06);
+    }
+
+    /* Gradient section alternée */
+    .bg-section-beige {
+        background: linear-gradient(135deg, #FFFDF7 0%, #FAEBCD 100%);
+    }
+
+    /* Ligne décorative gold */
+    .gold-line {
+        display: block;
+        width: 3rem;
+        height: 3px;
+        background: linear-gradient(90deg, #F7C873, #E5A835);
+        border-radius: 9999px;
+        margin-top: 0.5rem;
+    }
+
+    /* Animation d'apparition douce */
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(16px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up {
+        animation: fadeUp 0.55s ease both;
+    }
+}
+
+/* ============================================================
+   PAGINATION — Repris aux couleurs beige/gold
+   ============================================================ */
+nav[role="navigation"] span[aria-current="page"] > span {
+    background-color: var(--color-charcoal) !important;
+    color: #fff !important;
+    border-color: var(--color-charcoal) !important;
+}
+nav[role="navigation"] a {
+    color: var(--color-charcoal);
+    border-color: #FAEBCD;
+    transition: all 0.2s;
+}
+nav[role="navigation"] a:hover {
+    background-color: var(--color-beige);
+    border-color: var(--color-gold);
+}

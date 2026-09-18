@@ -1,0 +1,50 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chezmoi_app
+    ports:
+      - "8000:80"
+    environment:
+      APP_NAME: ChezMoi
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: http://localhost:8000
+      APP_KEY: base64:drLAvcJoaLl3VyYJK6Xj8fKaPRl4ygZQxI0nRTr3rBc=
+      LOG_CHANNEL: stderr
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_DATABASE: chezmoi
+      DB_USERNAME: chezmoi
+      DB_PASSWORD: secret
+      SESSION_DRIVER: database
+      CACHE_STORE: database
+      QUEUE_CONNECTION: database
+      FILESYSTEM_DISK: public
+      MAIL_MAILER: log
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0
+    container_name: chezmoi_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: chezmoi
+      MYSQL_USER: chezmoi
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - chezmoi_dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-psecret"]
+      timeout: 5s
+      retries: 10
+
+volumes:
+  chezmoi_dbdata:
