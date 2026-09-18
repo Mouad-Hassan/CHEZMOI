@@ -78,21 +78,5 @@ Application : **http://localhost:8000** — MySQL exposé sur le port 3307.
 - [MLD](docs/MLD.md) — Modèle Logique de Données
 
 
-## 🔌 API (extraits)
 
-```bash
-# Connexion -> renvoie un token Sanctum
-curl -X POST http://127.0.0.1:8000/api/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"test1@gmail.com","password":"test1"}'
 
-# Recherche d'annonces (public, paginé)
-curl "http://127.0.0.1:8000/api/annonces?ville=Marrakech&prix_max=1000000"
-
-# Profil (protégé)
-curl http://127.0.0.1:8000/api/me -H "Authorization: Bearer <token>"
-```
-
-## 📄 Licence
-
-Projet pédagogique — MIT.
